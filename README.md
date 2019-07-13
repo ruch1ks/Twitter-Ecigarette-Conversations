@@ -8,7 +8,7 @@ I am currently working on a research project to understand the differences in th
 This script contains functions to find the frequencies of certain keywords, as well as the frequencies of words immediately preceding and following those keywords. There is also functionality that finds the surrounding context of certain keywords, as well as other words found in a similar context to the keyword. Currently I am working on implementing LDA using Gensim. 
 
 # Installation 
-This project currently uses Python 3. The NLTK and Gensim libraries can be installed using pip. 
+This project currently uses Python 3.6. The NLTK and Gensim libraries can be installed using pip. 
 
 # Notes
 This project was made to analyze CSV files containing tweets collected from GWU's Social Feed Manager. As part of the agreement to use Twitter's API, I am not allowed to publish the raw data online. 
