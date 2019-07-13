@@ -9,3 +9,6 @@ This script contains functions to find the frequencies of certain keywords, as w
 
 # Installation 
 This project currently uses Python 3. The NLTK and Gensim libraries can be installed using pip. 
+
+# Notes
+This project was made to analyze CSV files containing tweets collected from GWU's Social Feed Manager. As part of the agreement to use Twitter's API, I am not allowed to publish the raw data online. 
