@@ -20,27 +20,6 @@ from gensim import corpora
 juul_keywords = ['juul', 'juuls', '#juul', '#juuls']
 ecig_keywords = ['ecig', 'ecigs', 'e-cig', 'ecigs', 'ecigarette', 'ecigarettes', 'e-cigarette', 'e-cigarettes', '#ecig', '#ecigs', '#e-cig', '#e-cigs', '#ecigarette', '#ecigarettes', '#e-cigarette', '#e-cigarettes']
 
-
-#this method uses NLTK's concordance
-#to find the surrounding context of a specific keyword
-#only works with one keyword (not a list)
-#takes in a filename, width of surrounding context, max number of lines, keyword, and a non-tokenized string
-#saves the output to a .txt file
-def find_context(filename, width, maxlines, keyword, tweets_str): 
-
-	#NLTK has a unique tokenizer for tweets
-	t = nltk.tokenize.TweetTokenizer()
-	tweet_txt_obj = Text(t.tokenize(tweets_str))
-
-	#by default concordance() prints to console
-	#this reroutes the output to a file
-	concordance_file = open(filename, 'w', encoding = 'utf8')
-	tmpout = sys.stdout
-	sys.stdout = concordance_file
-	tweet_txt_obj.concordance(keyword, width, maxlines)
-	concordance_file.close()
-	sys.stdout = tmpout
-
 #this method cleans strings of text
 #removes stop words and punctuation
 #removes additional symbols that are commonly found in tweets  
@@ -98,8 +77,10 @@ def main():
 				juul_tweets.append(tweet[5])
 				juul_tweets_str = juul_tweets_str + tweet[5] + " "
 
-	find_context('test.txt', 80, sys.maxsize, 'juul', juul_tweets_str)
-	print("done")
+	#find_context('test.txt', 80, sys.maxsize, 'juul', juul_tweets_str)
+	
+	#split tweets into words
+
 
 
 if __name__ == '__main__':
@@ -108,6 +89,47 @@ if __name__ == '__main__':
 
 # ** the functions below were used for various preliminary tasks of analyzing the data ** 
 
+#this method uses NLTK's similar()
+#to find words in a similar context as the keyword
+#only works with one keyword
+#takes in a filename, max number of lines, keyword, and a non-tokenized string
+#saves the output to a .txt file
+def find_similar(filename, maxlines, keyword, tweets_str):
+	#NLTK has a unique tokenizer for tweets
+	t = nltk.tokenize.TweetTokenizer()
+	tweet_txt_obj = Text(t.tokenize(tweets_str))
+
+	#by default similar() prints to console
+	#this reroutes the output to a file
+	similar_file = open(filename, 'w', encoding = 'utf8')
+	tmpout = sys.stdout
+	sys.stdout = similar_file
+	tweet_txt_obj.similar(keyword, maxlines)
+	similar_file.close()
+	sys.stdout = tmpout
+
+
+#this method uses NLTK's concordance
+#to find the surrounding context of a specific keyword
+#only works with one keyword (not a list)
+#takes in a filename, width of surrounding context, max number of lines, keyword, and a non-tokenized string
+#saves the output to a .txt file
+def find_context(filename, width, maxlines, keyword, tweets_str): 
+
+	#NLTK has a unique tokenizer for tweets
+	t = nltk.tokenize.TweetTokenizer()
+	tweet_txt_obj = Text(t.tokenize(tweets_str))
+
+	#by default concordance() prints to console
+	#this reroutes the output to a file
+	concordance_file = open(filename, 'w', encoding = 'utf8')
+	tmpout = sys.stdout
+	sys.stdout = concordance_file
+	tweet_txt_obj.concordance(keyword, width, maxlines)
+	concordance_file.close()
+	sys.stdout = tmpout
+
+	
 #this method takes in a list and prints out the frequencies
 #at which the primary keywords (juul/e-cig/etc) appear
 def keyword_counts(tweet_list):
@@ -233,19 +255,4 @@ def words_after(keywords, tokenized_tweet_list):
 # topics = ldamodel.print_topics(num_words=4)
 # for topic in topics:
   #  print(topic)
-
-
-#***************unused***************
-
-
-
-#words in similar context
-#similar_file = open('e-cigaretteSimilarSearch.txt', 'w', encoding = 'utf8')
-#tmpout1 = sys.stdout
-#sys.stdout = similar_file
-#search_text_obj.similar('e-cigarette', sys.maxsize)
-
-
-
-#search = Text(nltk.corpus.gutenberg.words('EcigSearch.txt'))
 
